@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DozenDispleasedDudes.MAUI.Views.ProjectFormView"
+             Title="ProjectFormView"
+             NavigatedTo="OnArrived">
+    <VerticalStackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width=".15*"/>
+                <ColumnDefinition />
+                
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                Padding="10"
+                Text="Name :" />
+            <Label Grid.Column="1"  
+                Padding="10" 
+                Text="{Binding Path=Model.Client.Name}"/>
+            
+        </Grid>
+        <Grid Padding="5" Margin="5">
+            <Label Text="Project Form"></Label>
+        </Grid>
+        <Entry Placeholder="Short Name" Text="{Binding Path= Model.ShortName}" />
+        <Entry Placeholder="Long Name" Text="{Binding Path= Model.LongName}" />
+        <StackLayout>
+            <Label Text="Open Date" />
+            <DatePicker Date="{Binding Path=Model.OpenDate}"  />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Is Active" />
+            <Switch x:Name="IsActiveSwitchP" IsToggled="{Binding Path=Model.IsActive}" />
+            <StackLayout>
+                <Label Text="Close Date" />
+                <DatePicker x:Name="CloseDatePickerP" Date="{Binding Path=Model.ClosedDate}">
+                    <DatePicker.Triggers>
+                        <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference IsActiveSwitchP}, Path=IsToggled}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </DatePicker.Triggers>
+                </DatePicker>
+            </StackLayout>
+        </StackLayout>
+
+
+        <Button Text="OK" Command="{Binding AddCommand} "/>
+        <Button Text="Cancel"  Clicked="CancelClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

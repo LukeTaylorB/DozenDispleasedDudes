@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DozenDispleasedDudes.MAUI.Views.ClientDetailView"
+             Title="ClientDetailView"
+             NavigatedTo="OnArrived">
+    <VerticalStackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width=".15*"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width=".15*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width=".15*"/>
+                <ColumnDefinition/>
+               
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+            Padding="10"
+            Text="Name :" />
+            <Label Grid.Column="1"  Padding="10" Text="{Binding Path= Model.Name}"/>
+            <Label Grid.Column="2"
+            Padding="10"
+            Text="Open Date :" />
+            <Label Grid.Column="3"  Padding="10" Text="{Binding Path= Model.OpenDate}"/>
+         
+            <Label Grid.Column="4"
+            Padding="10"
+            Text="Notes :" />
+            <Label Grid.Column="5"  Padding="10" Text="{Binding Path= Model.Notes}"/>
+        </Grid>
+        <Grid Padding="5" Margin="5">
+            <Label Text="Projects:"></Label>
+        </Grid>
+        <Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Entry Grid.Column="0"></Entry>
+                <Button Grid.Column="1" Text="Search"></Button>
+                <Button Grid.Column="2" Text="Add Project" Command="{Binding AddProjectCommand}"></Button>
+            </Grid>
+        </Grid>
+        <ListView
+            ItemsSource="{Binding Projects}"
+            >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="12*"/>
+                                <ColumnDefinition/>
+                                
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" VerticalTextAlignment="Center" Text="{Binding Display}"></Label>
+                            <Button Grid.Column="1" Text="Timer" Command="{Binding TimerCommand}"/>
+                            <!-- jump to narrative time menu wait till class covers it -->
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Go Back" Clicked="GoBackClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DozenDispleasedDudes.MAUI.Views.ClientFormView"
+             Title="ClientFormView"
+             NavigatedTo="OnArriving">
+    <VerticalStackLayout>
+        <StackLayout >
+            <Entry  Placeholder="Name" Text="{Binding Model.Name}" />
+            <StackLayout>
+                <Label Text="Open Date" />
+                <DatePicker  Date="{Binding Model.OpenDate}"  />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Is Active" />
+                <Switch x:Name="ClientIsActiveSwitch" IsToggled="{Binding Model.isActive}" />
+                <StackLayout>
+                    <Label Text="Close Date" />
+                    <DatePicker x:Name="ClientCloseDatePicker" Date="{Binding Model.ClosedDate}">
+                        <DatePicker.Triggers>
+                            <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference ClientIsActiveSwitch}, Path=IsToggled}" Value="True">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                        </DatePicker.Triggers>
+                    </DatePicker>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Notes" />
+            <Entry  Placeholder="Notes" Text="{Binding Notes }" />
+        </StackLayout>
+        <Button Text="OK" Clicked="OkClicked"/>
+        <Button Text="Cancel" Clicked="CancelClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DozenDispleasedDudes.MAUI.Views.ProjectView"
+             Title="ProjectView"
+             NavigatedTo="OnArrived" 
+              >
+
+    <VerticalStackLayout>
+        <SearchBar
+            Text="{Binding Query, Mode=TwoWay}" Placeholder="Project Search"
+        ></SearchBar>
+        <Label 
+            Text=""
+            VerticalOptions="Center" 
+            HorizontalOptions="Start" />
+        <Grid>
+            <!-- place holder client search OR integrate client into search for project meaning another find statement-->
+        </Grid>
+        <ListView
+            ItemsSource="{Binding Portfolio}"
+            >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="12*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" VerticalTextAlignment="Center" Text="{Binding Display}"></Label>
+                            <Button Grid.Column="1" 
+                                    Text="Edit"
+                                    Command="{Binding Path = EditCommand}"
+                                    CommandParameter="{Binding}"
+                                    Clicked="EditClicked"
+                                    />
+                            <Button Grid.Column="2" 
+                                    Text="Delete" 
+                                    Command="{Binding Path=DeleteCommand}" 
+                                    CommandParameter="{Binding}"
+                                    Clicked="DeleteClicked"/>
+                            <Button Grid.Column="3"  Text="Timer" Command="{Binding TimerCommand}"/>
+                            <Button Grid.Column="4" Text="Details"/>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Go Back" Clicked="GoBackClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

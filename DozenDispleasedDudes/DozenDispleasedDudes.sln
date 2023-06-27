@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DozenDispleasedDudes", "DozenDispleasedDudes\DozenDispleasedDudes.csproj", "{32DD47F3-DF2D-4935-AD4B-1EAFCC0334DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DozenDispleasedDudes.Library", "DozenDispleasedDudes.Library\DozenDispleasedDudes.Library.csproj", "{8A2FBF1C-2FB7-401A-ADC1-2CB16683C068}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DozenDispleasedDudes.MAUI", "DozenDispleasedDudes.MAUI\DozenDispleasedDudes.MAUI.csproj", "{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32DD47F3-DF2D-4935-AD4B-1EAFCC0334DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32DD47F3-DF2D-4935-AD4B-1EAFCC0334DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32DD47F3-DF2D-4935-AD4B-1EAFCC0334DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32DD47F3-DF2D-4935-AD4B-1EAFCC0334DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2FBF1C-2FB7-401A-ADC1-2CB16683C068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2FBF1C-2FB7-401A-ADC1-2CB16683C068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2FBF1C-2FB7-401A-ADC1-2CB16683C068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2FBF1C-2FB7-401A-ADC1-2CB16683C068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EAD67B7-6FAB-4251-AB0A-6A6796FD61BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {032E66F6-45C1-4E6A-AD5C-086184CB3F08}
+	EndGlobalSection
+EndGlobal
