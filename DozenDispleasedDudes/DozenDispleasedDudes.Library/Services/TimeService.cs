@@ -29,7 +29,7 @@ namespace DozenDispleasedDudes.Library.Services
                 return instance;
             }
         }
-        public List<Time> Roster { get { return times; } }
+        public List<Time> Times { get { return times; } }
         public TimeService()
         {
             times = new List<Time>();

@@ -44,7 +44,9 @@
                                     CommandParameter="{Binding}"
                                     Clicked="DeleteClicked"/>
                             <Button Grid.Column="3"  Text="Timer" Command="{Binding TimerCommand}"/>
-                            <Button Grid.Column="4" Text="Details"/>
+                            <Button Grid.Column="4" Text="Details" Command="{Binding Path =DetailsCommand}"
+                                    CommandParameter="{Binding}"
+                                    Clicked="DetailsClicked"/>
 
                         </Grid>
                     </ViewCell>

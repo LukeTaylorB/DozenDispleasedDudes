@@ -1,9 +1,14 @@
-﻿using DozenDispleasedDudes.MAUI.Views;
+﻿using DozenDispleasedDudes.Library.Models;
+using DozenDispleasedDudes.Library.Services;
+using DozenDispleasedDudes.MAUI.Views;
 using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,12 +16,31 @@ using System.Windows.Input;
 namespace DozenDispleasedDudes.MAUI.ViewModels
 {
     
-    public class ProjectViewModel
+    public class ProjectViewModel : INotifyPropertyChanged
     {
-        public DateTime DefaultDate = DateTime.Today;
-        public Project Model {get; set; } //somehow need to set opendate and closedate default date to Default Date so it doesnt start at 1900 like bruh
+        public event PropertyChangedEventHandler PropertyChanged;
 
-       
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public ObservableCollection<Time> TimeEntries
+        {
+            get
+            {
+                return new ObservableCollection<Time>(TimeService.Current.Times);
+            }
+        }
+        public void RefreshTimesList()
+        {
+            NotifyPropertyChanged(nameof(TimeEntries));
+          
+        }
+
+        public DateTime DefaultDate = DateTime.Today; //remeber field not property 
+        public Project Model {get; set; } //somehow need to set opendate and closedate default date to Default Date so it doesnt start at 1900 like bruh
+        public Time TimeModel { get; set; }
+        
         public ICommand AddCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
@@ -30,6 +54,9 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 return Model.shortString();
             }
         }
+        
+       
+        
         private void ExecuteAdd()
         {
             //Project exists 
@@ -61,7 +88,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         }
         public void ExecuteDetails(int id)
         {
-           // Shell.Current.GoToAsync($"//ProjectDetail?projectId={id}");
+            Shell.Current.GoToAsync($"//ProjectDetail?projectId={id}");
         }
         public void SetupCommands()
         {
@@ -90,8 +117,10 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
 
         public ProjectViewModel(Project model)
         {
+            
             Model = model;
             SetupCommands();
+            //Detail view bug -> after this command goes to TimerTick
             //ClientSave = clientSave;
             
         }
@@ -109,7 +138,12 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 X = 0,
                 Y = 0
             };
+            //var view = new TimerView(Model.Id,window);
+            //window.Page = view; 
+            //Ghetto Rig
+
             Application.Current.OpenWindow(window);
+
         }
 
     }

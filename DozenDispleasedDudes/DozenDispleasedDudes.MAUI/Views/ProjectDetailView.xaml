@@ -10,39 +10,39 @@
                 <ColumnDefinition  Width=".15*"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-                <Label Grid.Column="0"
+            <Label Grid.Column="0"
                 Padding="10"
                 Text="Name :" />
-                <Label Grid.Column="1"  
+            <Label Grid.Column="1"  
                 Padding="10" 
-                Text="{Binding Path=Model.Client.Name}"/>
+                Text=""/>
         </Grid>
         <Grid Padding="5" Margin="5">
-            <Label Text="Project Form"></Label>
+            <Label Text="Project Details"></Label>
         </Grid>
-        <Entry Placeholder="Short Name" Text="{Binding Path= Model.ShortName}" />
-        <Entry Placeholder="Long Name" Text="{Binding Path= Model.LongName}" />
-        <StackLayout>
-            <Label Text="Open Date" />
-            <DatePicker Date="{Binding Path=Model.OpenDate}"/>
-        </StackLayout>
-        <StackLayout>
-            <Label Text="Is Active" />
-            <Switch x:Name="IsActiveSwitchP" IsToggled="{Binding Path=Model.IsActive}" />
-            <StackLayout>
-                <Label Text="Close Date" />
-                <DatePicker x:Name="CloseDatePickerP" Date="{Binding Path=Model.ClosedDate}">
-                    <DatePicker.Triggers>
-                        <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference IsActiveSwitchP}, Path=IsToggled}" Value="True">
-                            <Setter Property="IsVisible" Value="False" />
-                        </DataTrigger>
-                    </DatePicker.Triggers>
-                </DatePicker>
-            </StackLayout>
-        </StackLayout>
+        <ListView
+            ItemsSource="{Binding TimeEntries}"
+            >
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            
+                            <ColumnDefinition/>
+                           
+                        </Grid.ColumnDefinitions>
 
-      
-        <Button Text="OK" Command="{Binding AddCommand}"/>
-        <Button Text="Cancel"/>
+                            <Label Grid.Column="0"  Text="{Binding}"></Label>
+                        </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        </ListView>
+
+
+
+
+        <Button Text="Go Back" Clicked="GoBackClicked"/>
     </VerticalStackLayout>
 </ContentPage>

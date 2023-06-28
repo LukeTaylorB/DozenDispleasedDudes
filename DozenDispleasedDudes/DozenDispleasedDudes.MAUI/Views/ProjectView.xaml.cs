@@ -39,6 +39,11 @@ public partial class ProjectView : ContentPage
     {
         (BindingContext as ProjectViewViewModel).RefreshProjectList();
     }
+    private void DetailsClicked(object sender, EventArgs e)
+    {
+        //(BindingContext as ProjectViewViewModel).RefreshTimesList();
+        //Shell.Current.GoToAsync("//ProjectDetail?");
+    }
 
     /*
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)

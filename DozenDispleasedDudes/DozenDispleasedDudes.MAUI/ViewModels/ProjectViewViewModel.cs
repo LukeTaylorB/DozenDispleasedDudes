@@ -1,4 +1,6 @@
 ﻿
+using DozenDispleasedDudes.Library.Models;
+using DozenDispleasedDudes.Library.Services;
 using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
 using System;
@@ -37,7 +39,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 return new ObservableCollection<Client>(ClientService.Current.Search(ClientQuery));
             }
         }
-        
+       
         public string ClientQuery
         {
             get => clientQuery;
@@ -111,6 +113,12 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
 
         }
+        // DO I have to build a time view Model specifcially for this and add INotifyPropertyChanged Method to project
+        // then put this collection in project view model but have type be TimeViewModel Instead; 
+       
+
+
+        //Need Time entriess list
         public void RefreshProjectList()
         {
             NotifyPropertyChanged(nameof(Projects));

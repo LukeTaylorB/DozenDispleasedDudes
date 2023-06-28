@@ -26,7 +26,7 @@
         <Entry Placeholder="Long Name" Text="{Binding Path= Model.LongName}" />
         <StackLayout>
             <Label Text="Open Date" />
-            <DatePicker Date="{Binding Path=Model.OpenDate}"  />
+            <DatePicker Date="{Binding Path=Model.OpenDate}" MinimumDate="{Binding DefaultDate}"  />
         </StackLayout>
         <StackLayout>
             <Label Text="Is Active" />

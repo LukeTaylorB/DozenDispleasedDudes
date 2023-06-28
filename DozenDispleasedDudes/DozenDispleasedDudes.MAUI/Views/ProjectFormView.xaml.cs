@@ -31,6 +31,7 @@ public partial class ProjectFormView : ContentPage
     }
     private void CancelClicked(object sender, EventArgs e)
     {
+        // should maybe go back to client
         Shell.Current.GoToAsync("//Client");
         // is there a way to go back to most recent route
     }

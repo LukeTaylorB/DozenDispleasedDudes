@@ -16,6 +16,6 @@
             HorizontalTextAlignment="Center"/>
         <Button Text="Start" Command="{Binding StartCommand}"/>
         <Button Text="Stop" Command="{Binding StopCommand}"/>
-        <Button Text="Submit" Command="{Binding Submit}" IsVisible="{Binding SubmitButtonVisible}" Clicked="SubmitClicked"/>
+        <Button Text="Submit" Command="{Binding SubmitCommand}" IsVisible="{Binding SubmitButtonVisible}" Clicked="SubmitClicked"/>
     </VerticalStackLayout>
 </ContentPage>

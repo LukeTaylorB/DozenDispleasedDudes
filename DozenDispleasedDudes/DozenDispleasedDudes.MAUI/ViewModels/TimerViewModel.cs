@@ -95,7 +95,11 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
 
         public void ExecuteSubmit()
         {
+            decimal minutes = ((decimal)stopwatch.Elapsed.Seconds / 60);
+            TimeEntry.Hours = (minutes / 60);
+            //TimeEntry.Hours = (decimal)stopwatch.Elapsed.Hours; //minutes / 60;
             TimeService.Current.AddTime(TimeEntry);
+            timer.Stop();
             //OnSubmitCompleted();
         }
         private void SetupCommands()
