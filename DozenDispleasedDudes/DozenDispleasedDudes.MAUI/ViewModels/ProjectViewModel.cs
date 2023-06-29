@@ -28,7 +28,11 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         {
             get
             {
-                return new ObservableCollection<Time>(TimeService.Current.Times);
+                if (Model == null || Model.Id == 0)
+                {
+                    return new ObservableCollection<Time>(TimeService.Current.Times);
+                }
+                return new ObservableCollection<Time>(TimeService.Current.Times.Where(t => t.ProjectId == Model.Id));
             }
         }
         public void RefreshTimesList()
