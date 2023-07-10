@@ -47,6 +47,10 @@
         Title="Employee Details"
         ContentTemplate="{DataTemplate local2:EmployeeDetailView}"
         Route="EmployeeDetail" />
+    <ShellContent
+        Title="Bill Details"
+        ContentTemplate="{DataTemplate local2:BillDetailView}"
+        Route="BillDetail" />
 
 
 </Shell>

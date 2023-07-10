@@ -4,11 +4,12 @@ namespace DozenDispleasedDudes.MAUI.Views;
 
 public partial class TimerView : ContentPage
 {
-    public TimerView(int projectId)
+    public TimerView(ProjectViewModel pvm, Window parentWindow)
     {
         InitializeComponent();
-        BindingContext = new TimerViewModel(projectId);
+        BindingContext = new TimerViewModel(pvm,parentWindow);
     }
+    //Public constructor for TimerView(Project p)
     private void SubmitClicked(object sender, EventArgs e)
     {
         //Application.Current.CloseWindow(window);

@@ -24,7 +24,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ObservableCollection<Time> TimeEntries
+        public ObservableCollection<Time> timeEntries
         {
             get
             {
@@ -32,9 +32,17 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 {
                     return new ObservableCollection<Time>(TimeService.Current.Times);
                 }
-                return new ObservableCollection<Time>(TimeService.Current.Times.Where(t => t.ProjectId == Model.Id));
+                return new ObservableCollection<Time>(TimeService.Current.Times.Where(t => t.ProjectId == Model.Id && (t.BillId == 0 || t.BillId == null)));
             }
         }
+        public ObservableCollection<TimeViewModel> TimeEntries
+        {
+            get
+            {
+                return new ObservableCollection<TimeViewModel>(timeEntries.Select(c => new TimeViewModel(c)).ToList());
+            }
+        }
+
         public void RefreshTimesList()
         {
             NotifyPropertyChanged(nameof(TimeEntries));
@@ -43,6 +51,8 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
 
         public DateTime DefaultDate = DateTime.Today; //remeber field not property 
         public Project Model {get; set; } //somehow need to set opendate and closedate default date to Default Date so it doesnt start at 1900 like bruh
+        //Model.Open
+        //Date ?? DateTime.Today Possible Without Issues
         public Time TimeModel { get; set; }
         
         public ICommand AddCommand { get; private set; }
@@ -55,12 +65,25 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         {
             get
             {
-                return Model.shortString();
+                return Model.ToString();
             }
         }
-        
-       
-        
+        public string projName
+        {
+            get
+            {
+                 return Model.Name();
+            }
+        }
+        public string TimeEntriesLabel
+        {
+            get
+            {
+                return ( "\t" + (Model.ShortName) + "'s TimeEntries");
+            }
+        }
+
+
         private void ExecuteAdd()
         {
             //Project exists 
@@ -124,9 +147,6 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             
             Model = model;
             SetupCommands();
-            //Detail view bug -> after this command goes to TimerTick
-            //ClientSave = clientSave;
-            
         }
         public void AddOrUpdate()
         {
@@ -135,16 +155,16 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         }
         private void ExecuteTimer()
         {
-            var window = new Window(new TimerView(Model.Id))
+            var window = new Window()
             {
-                Width = 250,
-                Height = 350,
+                Width = 675,
+                Height = 500,
                 X = 0,
                 Y = 0
             };
-            //var view = new TimerView(Model.Id,window);
-            //window.Page = view; 
-            //Ghetto Rig
+            var view = new TimerView(this,window);
+            window.Page = view; 
+            
 
             Application.Current.OpenWindow(window);
 

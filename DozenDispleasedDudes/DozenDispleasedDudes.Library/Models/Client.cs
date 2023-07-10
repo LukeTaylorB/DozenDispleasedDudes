@@ -24,7 +24,7 @@ namespace DozenDispleasedDudes.Models
         }
         public string shortString()
         {
-            return $" Client [Id: {Id}, Name: {Name}]";
+            return $"Client [Id: {Id}, Name: {Name}]";
         }
 
 

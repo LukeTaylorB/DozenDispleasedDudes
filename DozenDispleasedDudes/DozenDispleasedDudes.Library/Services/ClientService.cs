@@ -31,7 +31,7 @@ namespace DozenDispleasedDudes.Services
             }
         }
         //How to create without a pre made list
-        private ClientService() 
+        private ClientService()
         {
             _roster = new List<Client>
             {
@@ -49,6 +49,7 @@ namespace DozenDispleasedDudes.Services
         {
             return _roster.FirstOrDefault(r => r.Id == id);
         }
+        
         public void AddOrUpdate(Client c)
         {
             if (c.Id == 0)

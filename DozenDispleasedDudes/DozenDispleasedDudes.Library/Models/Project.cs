@@ -25,16 +25,19 @@ namespace DozenDispleasedDudes.Models
         {
             return $"{Id}.  {LongName} ({ShortName}) : {Client.shortString()} "?? string.Empty;
         }
-        
+        public string Name()
+        {
+            return $" {LongName}\n";
+        }
         public override string ToString()
         {
             if (IsActive == true)
             {
-                return $"{Id}. {LongName} ({ShortName})  Status: Active (Opened {OpenDate})  ";
+                return $"{Id}.  ({ShortName})  Status: Active (Opened {OpenDate})  "; //{LongName}
             }
             else
             {
-                return $"{Id}. {LongName} ({ShortName}) Status: Closed ({ClosedDate})";
+                return $"{Id}.  ({ShortName}) Status: Closed ({ClosedDate})"; //{LongName}
             }
         }
         public string TimerString()

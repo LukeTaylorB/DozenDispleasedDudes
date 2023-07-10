@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DozenDispleasedDudes.Library.Models;
 using DozenDispleasedDudes.Library.Services;
+using System.Collections.ObjectModel;
 
 namespace DozenDispleasedDudes.MAUI.ViewModels
 {
@@ -21,24 +22,40 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         public Project Project { get; set; }
         private bool _submitButtonVisible;
         private bool _narrativeFieldVisible;
+       
+        private Window parentWindow;
+        private ProjectViewModel _projectViewModel;
         public Time TimeEntry { get; set; }
+       
+        public Employee selectedEmployee { get; set; }
+        public EmployeeViewModel SE { get; set; }
+       
         public string TimerDisplay
         {
             get
             {
                 TimeSpan elapsedTime = stopwatch.Elapsed;
                 string formattedTime = string.Format("{0:00}:{1:00}:{2:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds);
-
-
                 return formattedTime;
-                /*
-                return string.Format("{0:00}:{0:00}:{1:00}",
-              stopwatch.Elapsed.Hours,
-              stopwatch.Elapsed.Minutes,
-              stopwatch.Elapsed.Seconds);
-                */
             }
         }
+        //Maybe switch this to a List of employees not vm
+        public ObservableCollection<EmployeeViewModel> EmployeeViewModelList
+        {
+            get
+            {
+                return new ObservableCollection<EmployeeViewModel>(EmployeeService.Current.Employees.Select(e => new EmployeeViewModel(e)).ToList());
+            }
+        }
+        public ObservableCollection<Employee> EmployeeList
+        {
+            get
+            {
+                return new ObservableCollection<Employee>((EmployeeService.Current.Employees).ToList());
+            }
+        }
+
+
         public bool SubmitButtonVisible
         {
             get => _submitButtonVisible;
@@ -67,6 +84,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         private Stopwatch stopwatch { get; set; }
 
         public ICommand StartCommand { get; private set; }
+        public ICommand SetEmployeeCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
         public ICommand SubmitCommand { get; private set; }
         public void ExecuteStart()
@@ -82,7 +100,10 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
             timer.Start();
         }
+        public void ExecuteSetEmployee()
+        {
 
+        }
         public void ExecuteStop()
         {
             TimeEntry.Stop = DateTime.Now;
@@ -97,9 +118,21 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         {
             decimal minutes = ((decimal)stopwatch.Elapsed.Seconds / 60);
             TimeEntry.Hours = (minutes / 60);
-            //TimeEntry.Hours = (decimal)stopwatch.Elapsed.Hours; //minutes / 60;
+            TimeEntry.IsSelected = false;
+           
+            
+            //var EmployeeId = SelectedEmployee.Id; //exception
+            // var check = employee;
+            //var check = TimeEntry.Employee;
+            TimeEntry.EmployeeRate = TimeEntry.Employee.Rate;
+            TimeEntry.EmployeeId = TimeEntry.Employee.Id;
+            TimeEntry.Cost = TimeService.Current.GetCost(TimeEntry);
+
             TimeService.Current.AddTime(TimeEntry);
+            _projectViewModel.RefreshTimesList();
             timer.Stop();
+            Application.Current.CloseWindow(parentWindow); 
+            
             //OnSubmitCompleted();
         }
         private void SetupCommands()
@@ -108,12 +141,13 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             StopCommand = new Command(ExecuteStop);
             SubmitCommand = new Command(ExecuteSubmit);
         }
-        public TimerViewModel(int projectId)
+        public TimerViewModel(ProjectViewModel pvm, Window parentWindow)
         {
+            _projectViewModel = pvm;
             TimeEntry = new Time();
-            TimeEntry.ProjectId = projectId;
+            TimeEntry.ProjectId = pvm.Model.Id;
             
-            Project = ProjectService.Current.Get(projectId) ?? new Project();
+            Project = ProjectService.Current.Get(pvm.Model.Id) ?? new Project();
             stopwatch = new Stopwatch();
             timer = Application.Current.Dispatcher.CreateTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 1);
@@ -121,6 +155,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
 
             timer.Tick += Timer_Tick;
             SetupCommands();
+            this.parentWindow = parentWindow;
         }
 
         private void Timer_Tick(object sender, EventArgs e)

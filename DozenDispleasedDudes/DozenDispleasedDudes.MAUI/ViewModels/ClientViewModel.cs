@@ -1,4 +1,6 @@
-﻿using DozenDispleasedDudes.Models;
+﻿using DozenDispleasedDudes.Library.Models;
+using DozenDispleasedDudes.Library.Services;
+using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
 using System;
 using System.Collections.Generic;
@@ -32,8 +34,27 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                     .Select(r => new ProjectViewModel(r)));
             }
         }
-        
        
+
+
+        //Change this to a timeViewModel
+        public ObservableCollection<Time> TimeList
+        {
+            get
+            {
+                return new ObservableCollection<Time>(TimeService.Current.Times.Where(t => t.IsSelected == true && (t.BillId == 0 || t.BillId == null)));
+            }
+        }
+        public string DisplayShort
+        {
+            get
+            {
+                return Model.shortString();
+            }
+        }
+        
+        
+
         public string Display
         {
             get
@@ -41,6 +62,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 return Model.ToString() ?? string.Empty;
             }
         }
+        public ICommand GenerateBillCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand DetailsCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
@@ -79,15 +101,38 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             //TODO: if we cancel the creation of this client, we need to delete it on cancel.
             Shell.Current.GoToAsync($"//ProjectForm?clientId={Model.Id}");
         }
+        public void ExecuteGenerateBill()
+        {
+           //we need TotalCost make sure Times Have Cost To see that we need timeList to be 
+           // a List<TimeViewModel> not a List<Time> 
+           // somwhere in bill we need a list of ProjectIds and maybe even the ProjectsList
+            var Invoice = new Bill();
+            Invoice.timeList = TimeList.ToList(); 
+            
+            Invoice.client = Model;
+            var check = Invoice.InvoiceId;
+            
+            
+            BillService.Current.AddOrUpdate(Invoice); // add functionaility to bill correction Here
+            TimeService.Current.UnselectByList(Invoice.timeList);
+            Shell.Current.GoToAsync($"//BillDetail?billId={Invoice.InvoiceId}");
+            //Introduce Time Variable for on a bill and set here 
+            //Then Deselect; 
+            // adjust Time List getter to check for on a bill var and dont add if true. set default = false;
 
+
+
+        }
+        public void RefreshTimes()
+        {
+            NotifyPropertyChanged(nameof(TimeList));
+        }
         //-------------------------------------------------------------------------
         public void RefreshProjects()
         {
             NotifyPropertyChanged(nameof(Projects));
+          
         }
-
-        
-        
 
         public void SetupCommands()
         {
@@ -100,6 +145,8 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 (c) => ExecuteDetails((c as ClientViewModel).Model.Id));
             AddProjectCommand = new Command(
                  (c) => ExecuteAddProject());
+            GenerateBillCommand = new Command(
+                (b) => ExecuteGenerateBill());
             ShowProjectsCommand = new Command(
                 (c) => ExecuteShowProjects((c as ClientViewModel).Model.Id));
         }

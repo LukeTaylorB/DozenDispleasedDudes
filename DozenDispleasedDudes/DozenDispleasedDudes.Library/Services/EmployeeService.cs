@@ -38,8 +38,8 @@ namespace DozenDispleasedDudes.Library.Services
         {
             employees = new List<Employee>
             {
-                new Employee {Id = 1, Name = "Admin"},
-                new Employee {Id = 2, Name = "Test"}
+                new Employee {Id = 1, Name = "Admin", Rate = 50},
+                new Employee {Id = 2, Name = "Test", Rate = 30}
             };
         }
 

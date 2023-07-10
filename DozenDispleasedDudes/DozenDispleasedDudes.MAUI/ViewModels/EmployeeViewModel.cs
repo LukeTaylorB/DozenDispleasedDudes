@@ -18,6 +18,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 return Model.ToString() ?? string.Empty;
             }
         }
+        
         public ICommand EditCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand AddEmployeeCommand { get; private set; }

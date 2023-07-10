@@ -17,7 +17,7 @@
         </Grid>
         <ListView 
             ItemsSource="{Binding Path=Employees}"
-            SelectedItem="{Binding Path=SelectedEmployee}"
+            SelectedItem="{Binding Path=TimeEntry.Employee}"
             >
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -23,7 +23,7 @@ public partial class ProjectDetailView : ContentPage
     }
     private void OnArrived(object sender, NavigatedToEventArgs e)
     {
-        ////-> this goes to TIMER TICK ?????
+       
        
         BindingContext = new ProjectViewModel(ProjectService.Current.Get(ProjectId));
         (BindingContext as ProjectViewModel).RefreshTimesList();

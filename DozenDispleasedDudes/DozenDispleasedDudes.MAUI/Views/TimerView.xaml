@@ -4,18 +4,99 @@
              x:Class="DozenDispleasedDudes.MAUI.Views.TimerView"
              Title="TimerView">
     <VerticalStackLayout>
-        <Label 
-            Text="{Binding ProjectDisplay}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            FontSize="Large"
-            HorizontalTextAlignment="Center"/>
-        <Label
-            Text="{Binding TimerDisplay}"
-            FontSize="Large"
-            HorizontalTextAlignment="Center"/>
-        <Button Text="Start" Command="{Binding StartCommand}"/>
-        <Button Text="Stop" Command="{Binding StopCommand}"/>
-        <Button Text="Submit" Command="{Binding SubmitCommand}" IsVisible="{Binding SubmitButtonVisible}" Clicked="SubmitClicked"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackLayout Grid.Row="0">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=" Auto"/>
+                        <ColumnDefinition Width=" Auto "/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+                    <StackLayout Grid.Column="0" Grid.Row="0">
+                        <Label 
+                            Text="{Binding ProjectDisplay}"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            Text="{Binding TimerDisplay}"
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"/>
+                        <Button Text="Start" Command="{Binding StartCommand}"/>
+                        <Button Text="Stop" Command="{Binding StopCommand}"/>
+                        <Button Text="Submit" Command="{Binding SubmitCommand}" IsVisible="{Binding SubmitButtonVisible}" Clicked="SubmitClicked"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="0" Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout Grid.Row="0">
+                                <Label Grid.Row="0" Grid.Column="0"  Text="Select Employee" FontSize="Large" Margin="25,0,0,50"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1">
+                                <ListView 
+                            ItemsSource="{Binding Path=EmployeeList}"
+                            SelectedItem="{Binding TimeEntry.Employee}" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition  Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width=" Auto"/>
+                                                        <ColumnDefinition Width=" Auto "/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" 
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"  
+                                                Margin="25,0,0,10"
+                                                Text="{Binding }"/>
+
+
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                   
+                </Grid>
+            </StackLayout>
+            <StackLayout Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackLayout>
+                        <Label Grid.Row="0" Grid.Column="0"  Text="Narrative" FontSize="Medium" Margin="25,0,0,10"/>
+                        <Entry Grid.Row="1" Text="{Binding TimeEntry.Narrative}" />
+                    </StackLayout>
+                </Grid>
+               
+            </StackLayout>
+        </Grid>
+        
+       
     </VerticalStackLayout>
 </ContentPage>

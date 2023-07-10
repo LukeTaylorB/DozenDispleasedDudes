@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DozenDispleasedDudes.MAUI.Views.BillDetailView"
+             Title="BillDetailView"
+             NavigatedTo="OnArrived">
+    <VerticalStackLayout>
+        
+            
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=" Auto"/>
+                <ColumnDefinition Width=" Auto "/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition  Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0"  Text="InvoiceId:" Margin="25,0,0,0"/>
+            <Label Grid.Row="0" Grid.Column="1" Margin="25,0,0,0" Text="{Binding Model.InvoiceId}"/>
+            <Label Grid.Row="1" Grid.Column="0" Margin="25,0,0,20" Text="{Binding clientShortString}"/>
+            <Label Grid.Row="2" Grid.Column="0"  Text="Time Items" Margin="25,0,0,10"/>
+
+        </Grid>
+        
+            
+        
+        <ListView 
+            ItemsSource="{Binding tvmList}" 
+            >
+           
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=" Auto"/>
+                                <ColumnDefinition Width=" Auto "/>
+                            </Grid.ColumnDefinitions>
+                            <!--  <Label  Grid.Column="1" Text="{Binding Cost}"></Label> -->
+                            <Label Grid.Column="0" Margin="45,0,0,0" Text="{Binding DisplayBill }"></Label>
+                           
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=" Auto"/>
+                <ColumnDefinition Width=" Auto "/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
+            </Grid.RowDefinitions>
+           
+           
+            <Label Grid.Row="0" Grid.Column="0" Margin="25,0,0,20" Text="{Binding TotalCostDisplay}"/>
+            <Button Margin="25,0,0,100" Grid.Row="1" Grid.Column="0" Text="Send Bill" Command="{Binding SendCommand}"/>
+            <Button Margin="25,0,0,100" Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelCommand}"/>
+
+        </Grid>
+
+    </VerticalStackLayout>
+</ContentPage>
