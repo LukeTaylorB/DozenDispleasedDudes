@@ -1,10 +1,12 @@
 ﻿
 using DozenDispleasedDudes.Models;
+using DozenDispleasedDudes.Library.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DozenDispleasedDudes.Services
 {
@@ -13,6 +15,7 @@ namespace DozenDispleasedDudes.Services
 
         //ClientHelper initEntry = new ClientHelper();
         private List<Client> _roster;
+        public List<Client> Roster { get { return _roster;  } }
         private static ClientService? instance;
         private static object _lock = new object();
         public static ClientService Current
@@ -33,18 +36,23 @@ namespace DozenDispleasedDudes.Services
         //How to create without a pre made list
         private ClientService()
         {
+            var response = new WebRequestHandler().Get("/Client").Result;
+            _roster = JsonConvert.DeserializeObject<List<Client>>(response) ?? new List<Client>();
+            /*
             _roster = new List<Client>
             {
                  new Client{ Id = 1, Name = "ExampleClient", OpenDate = new DateTime(),ClosedDate = new DateTime(),IsActive = false, Notes = string.Empty }
             };
-
+            */
             //roster.Add(initEntry.ClientEntry());
         }
+        
+
         public List<Client> Search(string query)
         {
             return Roster.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
         }
-        public List<Client> Roster { get { return _roster; } }
+        //public List<Client> Roster { get { return _roster; } }
         public Client? Get(int id)
         {
             return _roster.FirstOrDefault(r => r.Id == id);
