@@ -39,6 +39,7 @@ namespace DozenDispleasedDudes.Services
             var response = new WebRequestHandler().Get("/Client").Result;
             _roster = JsonConvert.DeserializeObject<List<Client>>(response) ?? new List<Client>();
             /*
+             * pre client switch constructor
             _roster = new List<Client>
             {
                  new Client{ Id = 1, Name = "ExampleClient", OpenDate = new DateTime(),ClosedDate = new DateTime(),IsActive = false, Notes = string.Empty }
@@ -50,23 +51,45 @@ namespace DozenDispleasedDudes.Services
 
         public List<Client> Search(string query)
         {
+            /*
+            var response
+               = new WebRequestHandler().Post("/search", query).Result;
+
+            var q = JsonConvert.DeserializeObject<Client>(response);
+            //return q;
+            */
             return Roster.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
         }
         //public List<Client> Roster { get { return _roster; } }
         public Client? Get(int id)
         {
+            /*var response = new WebRequestHandler()
+                   .Get($"/Client/GetClients/{id}")
+                   .Result;
+           var client = JsonConvert.DeserializeObject<Client>(response);*/
             return _roster.FirstOrDefault(r => r.Id == id);
         }
         
         public void AddOrUpdate(Client c)
         {
-            if (c.Id == 0)
+             var response 
+                = new WebRequestHandler().Post("/Client", c).Result;
+            
+            var myUpdatedClient = JsonConvert.DeserializeObject<Client>(response);
+            if(myUpdatedClient != null)
             {
-                //add
-                c.Id = LastId + 1;
-                Roster.Add(c);
+                var existingClient = _roster.FirstOrDefault(c => c.Id == myUpdatedClient.Id);
+                if(existingClient == null)
+                {
+                    _roster.Add(myUpdatedClient);
+                }else
+                {
+                    var index = _roster.IndexOf(existingClient);
+                    _roster.RemoveAt(index);
+                    _roster.Insert(index, myUpdatedClient);
+                }
             }
-
+           
         }
 
         public void Add(Client? client)
@@ -89,16 +112,45 @@ namespace DozenDispleasedDudes.Services
         }
         public void Delete(int id)
         {
+            var response
+                = new WebRequestHandler().Delete( $"/{id}").Result;
+
+            var DelClient = JsonConvert.DeserializeObject<Client>(response);
+            if (DelClient != null)
+            {
+                var existingClient = _roster.FirstOrDefault(c => c.Id == DelClient.Id);
+                if (existingClient != null)
+                {
+                    var index = _roster.IndexOf(existingClient);
+                    _roster.RemoveAt(index);
+                }
+            }
+            /*
             var clientToRemove = Get(id);
             if (clientToRemove != null)
             {
                 _roster.Remove(clientToRemove);
             }
+            */
         }
 
         public void Delete(Client c)
         {
-            _roster.Remove(c);
+            var response
+                = new WebRequestHandler().Delete( $"/{c.Id}").Result;
+
+            var DelClient = JsonConvert.DeserializeObject<Client>(response);
+            if (DelClient != null)
+            {
+                var existingClient = _roster.FirstOrDefault(c => c.Id == DelClient.Id);
+                if (existingClient != null)
+                {
+                    var index = _roster.IndexOf(existingClient);
+                    _roster.RemoveAt(index);
+                }
+             
+               // _roster.Remove(c);
+            }
         }
 
 
@@ -153,7 +205,8 @@ namespace DozenDispleasedDudes.Services
         }
         */
 
-        //for console app :( 
+        //for console app :( there are bugs because debuging certain problems require adjustments the class itself and all other functions
+        //I didnt think it was wise to fix the console app evreytime something changed for proj 2 or 3
 
 
         public void Update(int id)

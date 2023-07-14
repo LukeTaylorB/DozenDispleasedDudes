@@ -16,5 +16,7 @@ namespace DozenDispleasedDudes.API.Database
                 Notes = string.Empty
             }
         };
+        public static int LastClientId
+            => Clients.Any() ? Clients.Select(c => c.Id).Max() : 0;
     }
 }
