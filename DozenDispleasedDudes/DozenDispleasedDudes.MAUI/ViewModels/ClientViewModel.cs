@@ -1,4 +1,5 @@
-﻿using DozenDispleasedDudes.Library.Models;
+﻿using DozenDispleasedDudes.Library.DTO;
+using DozenDispleasedDudes.Library.Models;
 using DozenDispleasedDudes.Library.Services;
 using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
@@ -18,7 +19,8 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
     public class ClientViewModel : INotifyPropertyChanged
     {
         //public bool ClientSave;
-        public Client Model { get; set; }
+        public DateTime DefaultDate = DateTime.Today;
+        public ClientDTO Model { get; set; }
         
         public ObservableCollection<ProjectViewModel> Projects
         {
@@ -109,7 +111,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             var Invoice = new Bill();
             Invoice.timeList = TimeList.ToList(); 
             
-            Invoice.client = Model;
+            Invoice.client = new Client(Model); // How DO I get and set correctly; bec
             var check = Invoice.InvoiceId;
             
             
@@ -152,14 +154,15 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         }
         public ClientViewModel() 
         {
-            Model = new Client();
+            Model = new ClientDTO();
+           
             SetupCommands();
         }
         public ClientViewModel(int clientId)
         {
             if(clientId == 0)
             {
-                Model = new Client();
+                Model = new ClientDTO();
             }
             else
             {
@@ -167,14 +170,19 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
             SetupCommands();
         }
-        public ClientViewModel(Client client)
+        public ClientViewModel(ClientDTO client)
         {
             Model = client;
             SetupCommands();
         }
+
         public void AddOrUpdate()
         {
             var check = Model.IsActive;
+            if (Model.IsActive == true)
+            {
+                Model.ClosedDate = null;
+            }
             ClientService.Current.AddOrUpdate(Model);
         }
     }

@@ -1,4 +1,5 @@
 ﻿
+using DozenDispleasedDudes.Library.DTO;
 using DozenDispleasedDudes.Library.Models;
 using DozenDispleasedDudes.Library.Services;
 using DozenDispleasedDudes.Models;
@@ -28,15 +29,15 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         public static int clientViewOrigin;
         private string clientQuery;
         //Search Fixed by this 
-        public ObservableCollection<Client> Roster
+        public ObservableCollection<ClientDTO> Roster
         {
             get
             {
                 if (string.IsNullOrEmpty(ClientQuery))
                 {
-                    return new ObservableCollection<Client>(ClientService.Current.Roster);
+                    return new ObservableCollection<ClientDTO>(ClientService.Current.Roster);
                 }
-                return new ObservableCollection<Client>(ClientService.Current.Search(ClientQuery));
+                return new ObservableCollection<ClientDTO>(ClientService.Current.Search(ClientQuery));
             }
         }
        
@@ -79,7 +80,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
         }
 
-        public Client Client { get; set; }
+        public ClientDTO Client { get; set; }
         public static bool ClientSave { get; set; }
         public ObservableCollection<Project> Projects
         {
@@ -108,7 +109,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
             else
             {
-                Client = new Client();
+                Client = new ClientDTO();
                 //clientSave = false;
             }
 

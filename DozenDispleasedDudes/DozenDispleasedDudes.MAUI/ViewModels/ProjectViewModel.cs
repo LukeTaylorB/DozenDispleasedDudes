@@ -137,7 +137,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         public ProjectViewModel(int clientId)
         {
             var client = ClientService.Current.Get(clientId);
-            Model = new Project { Client = client, ClientId = clientId };
+            Model = new Project { Client = new Client(client), ClientId = clientId }; // should I be changing the fundamentals of project here.
           
             SetupCommands();
         }

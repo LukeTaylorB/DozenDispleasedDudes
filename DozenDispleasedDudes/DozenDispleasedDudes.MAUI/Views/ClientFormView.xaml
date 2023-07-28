@@ -13,7 +13,7 @@
             </StackLayout>
             <StackLayout>
                 <Label Text="Is Active" />
-                <Switch x:Name="ClientIsActiveSwitch" IsToggled="{Binding Model.isActive}" />
+                <Switch x:Name="ClientIsActiveSwitch" IsToggled="{Binding Model.IsActive}" />
                 <StackLayout>
                     <Label Text="Close Date" />
                     <DatePicker x:Name="ClientCloseDatePicker" Date="{Binding Model.ClosedDate}">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DozenDispleasedDudes.Library.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,15 @@ namespace DozenDispleasedDudes.Models
             ClosedDate = new DateTime();
             IsActive = false;
             Notes = string.Empty;
+        }
+        public Client(ClientDTO dto)
+        {
+            this.Id = dto.Id;
+            this.Name = dto.Name;
+            this.OpenDate = dto.OpenDate;
+            this.ClosedDate = dto.ClosedDate;
+            this.IsActive = dto.IsActive;
+            this.Notes = dto.Notes;
         }
 
         /*

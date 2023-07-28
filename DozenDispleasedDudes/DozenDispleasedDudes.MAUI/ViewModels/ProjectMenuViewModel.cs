@@ -1,4 +1,5 @@
-﻿using DozenDispleasedDudes.Models;
+﻿using DozenDispleasedDudes.Library.DTO;
+using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
 using System;
 using System.Collections.Generic;
@@ -178,15 +179,15 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 NotifyPropertyChanged(nameof(Roster));
             }
         }
-        public ObservableCollection<Client> Roster
+        public ObservableCollection<ClientDTO> Roster
         {
             get
             {
                 if (string.IsNullOrEmpty(ClientQuery))
                 {
-                    return new ObservableCollection<Client>(ClientService.Current.Roster);
+                    return new ObservableCollection<ClientDTO>(ClientService.Current.Roster);
                 }
-                return new ObservableCollection<Client>(ClientService.Current.Search(ClientQuery));
+                return new ObservableCollection<ClientDTO>(ClientService.Current.Search(ClientQuery));
             }
         }
         private Client? pineapple;
@@ -224,7 +225,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         {
             return _projectService.Get(project.Id);
         }
-        public Client? GetClient()
+        public ClientDTO? GetClient()
         {
             return clientService.Get(client.Id);
         }

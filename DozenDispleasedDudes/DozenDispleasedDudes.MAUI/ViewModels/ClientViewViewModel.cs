@@ -1,4 +1,5 @@
-﻿using DozenDispleasedDudes.Models;
+﻿using DozenDispleasedDudes.Library.DTO;
+using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Services;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,9 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                     new ObservableCollection<ClientViewModel>
                     (ClientService
                         .Current.Roster
-                        .Select(c => new ClientViewModel(c)).ToList());
+                        .Select(c => new ClientViewModel(c)).ToList()); //errors on C
                 }
-                var fetched = new ObservableCollection<Client>(ClientService.Current.Search(Query));
+                var fetched = new ObservableCollection<ClientDTO>(ClientService.Current.Search(Query));
                 return new ObservableCollection<ClientViewModel>(fetched.Select(c=> new ClientViewModel(c)).ToList());
 
             }

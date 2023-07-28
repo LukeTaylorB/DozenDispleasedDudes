@@ -15,8 +15,10 @@ using System.Windows.Input;
 
 namespace DozenDispleasedDudes.MAUI.ViewModels
 {
+    /*
     public class ClientMenuViewModel : INotifyPropertyChanged
     {
+        
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -331,5 +333,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             NotifyPropertyChanged("isActive");
             ToggleUpdateClientForm();
         }
+        
     }
+    */
 }

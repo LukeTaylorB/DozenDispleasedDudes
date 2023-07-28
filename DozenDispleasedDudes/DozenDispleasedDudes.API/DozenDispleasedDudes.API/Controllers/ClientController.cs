@@ -3,6 +3,7 @@ using DozenDispleasedDudes.API.EC;
 using DozenDispleasedDudes.Models;
 using DozenDispleasedDudes.Library.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using DozenDispleasedDudes.Library.DTO;
 
 namespace DozenDispleasedDudes.API.Controllers
 {
@@ -17,35 +18,30 @@ namespace DozenDispleasedDudes.API.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public IEnumerable<Client> Get()
+        public IEnumerable<ClientDTO> Get()
         {
-            return FakeDatebase.Clients;
+            return new ClientEC().Search();
         }
         [HttpGet("/{id}")]
-        public Client GetId(int id)
+        public ClientDTO? GetId(int id)
         {
-            return FakeDatebase.Clients.FirstOrDefault(c => c.Id == id) ?? new Client();
+            return new ClientEC().Get(id);
         }
 
         [HttpDelete("/{id}")]
-        public Client? Delete(int id)
+        public ClientDTO? Delete(int id)
         {
-            var clientToDelete = FakeDatebase.Clients.FirstOrDefault(c => c.Id == id);
-            if (clientToDelete != null)
-            {
-                FakeDatebase.Clients.Remove(clientToDelete);
-            }
-            return clientToDelete;
+            return new ClientEC().Delete(id);
         }
 
         [HttpPost]
-        public Client AddOrUpdate([FromBody] Client client)
+        public ClientDTO AddOrUpdate([FromBody] ClientDTO dto)
         {
-            return new ClientEC().AddOrUpdate(client);
+            return new ClientEC().AddOrUpdate(dto);
         }
         
-        [HttpPost("/search")]
-        public IEnumerable<Client> Search([FromBody] QueryMessage query)
+        [HttpPost("/{query}")]
+        public IEnumerable<ClientDTO> Search([FromBody] QueryMessage query)
         {
             return new ClientEC().Search(query.Query);
         }

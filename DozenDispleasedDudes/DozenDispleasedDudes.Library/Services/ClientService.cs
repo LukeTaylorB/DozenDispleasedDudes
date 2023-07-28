@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using DozenDispleasedDudes.Library.DTO;
 
 namespace DozenDispleasedDudes.Services
 {
@@ -14,8 +15,8 @@ namespace DozenDispleasedDudes.Services
     {
 
         //ClientHelper initEntry = new ClientHelper();
-        private List<Client> _roster;
-        public List<Client> Roster { get { return _roster;  } }
+        private List<ClientDTO> _roster;
+        public List<ClientDTO> Roster { get { return _roster;  } }
         private static ClientService? instance;
         private static object _lock = new object();
         public static ClientService Current
@@ -37,7 +38,7 @@ namespace DozenDispleasedDudes.Services
         private ClientService()
         {
             var response = new WebRequestHandler().Get("/Client").Result;
-            _roster = JsonConvert.DeserializeObject<List<Client>>(response) ?? new List<Client>();
+            _roster = JsonConvert.DeserializeObject<List<ClientDTO>>(response) ?? new List<ClientDTO>();
             /*
              * pre client switch constructor
             _roster = new List<Client>
@@ -49,19 +50,20 @@ namespace DozenDispleasedDudes.Services
         }
         
 
-        public List<Client> Search(string query)
+        public List<ClientDTO> Search(string query)
         {
             /*
+             * on char typed searchs for client with that name none exists 
             var response
-               = new WebRequestHandler().Post("/search", query).Result;
+               = new WebRequestHandler().Post($"/{query}", query).Result;
 
-            var q = JsonConvert.DeserializeObject<Client>(response);
-            //return q;
+            var DeQuery = JsonConvert.DeserializeObject<Client>(response);
             */
+            
             return Roster.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
         }
         //public List<Client> Roster { get { return _roster; } }
-        public Client? Get(int id)
+        public ClientDTO? Get(int id)
         {
             /*var response = new WebRequestHandler()
                    .Get($"/Client/GetClients/{id}")
@@ -70,12 +72,12 @@ namespace DozenDispleasedDudes.Services
             return _roster.FirstOrDefault(r => r.Id == id);
         }
         
-        public void AddOrUpdate(Client c)
+        public void AddOrUpdate(ClientDTO c)
         {
              var response 
                 = new WebRequestHandler().Post("/Client", c).Result;
             
-            var myUpdatedClient = JsonConvert.DeserializeObject<Client>(response);
+            var myUpdatedClient = JsonConvert.DeserializeObject<ClientDTO>(response);
             if(myUpdatedClient != null)
             {
                 var existingClient = _roster.FirstOrDefault(c => c.Id == myUpdatedClient.Id);
@@ -92,7 +94,7 @@ namespace DozenDispleasedDudes.Services
            
         }
 
-        public void Add(Client? client)
+        public void Add(ClientDTO? client)
         {
             if (client != null)
             {
@@ -115,7 +117,7 @@ namespace DozenDispleasedDudes.Services
             var response
                 = new WebRequestHandler().Delete( $"/{id}").Result;
 
-            var DelClient = JsonConvert.DeserializeObject<Client>(response);
+            var DelClient = JsonConvert.DeserializeObject<ClientDTO>(response);
             if (DelClient != null)
             {
                 var existingClient = _roster.FirstOrDefault(c => c.Id == DelClient.Id);
@@ -134,6 +136,8 @@ namespace DozenDispleasedDudes.Services
             */
         }
 
+        /*
+         * Not used
         public void Delete(Client c)
         {
             var response
@@ -152,8 +156,8 @@ namespace DozenDispleasedDudes.Services
                // _roster.Remove(c);
             }
         }
-
-
+        
+        */
         //---------------------------------------------------------------------------------------------------------
         /*
         public Client? Get(string name)
@@ -208,7 +212,7 @@ namespace DozenDispleasedDudes.Services
         //for console app :( there are bugs because debuging certain problems require adjustments the class itself and all other functions
         //I didnt think it was wise to fix the console app evreytime something changed for proj 2 or 3
 
-
+        /*
         public void Update(int id)
         {
             var c = Get(id);
@@ -219,7 +223,7 @@ namespace DozenDispleasedDudes.Services
                 Console.WriteLine("Action finished"); ;
             }
         }
-
+        */
         public void Update(Client c)
         {
             if (c != null)
