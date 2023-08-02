@@ -36,7 +36,7 @@ namespace DozenDispleasedDudes.API.Controllers
 
         [HttpPost]
         public ClientDTO AddOrUpdate([FromBody] ClientDTO dto)
-        {
+        { //called second id 0
             return new ClientEC().AddOrUpdate(dto);
         }
         

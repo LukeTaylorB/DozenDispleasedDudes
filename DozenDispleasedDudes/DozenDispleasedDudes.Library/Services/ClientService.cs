@@ -73,7 +73,7 @@ namespace DozenDispleasedDudes.Services
         }
         
         public void AddOrUpdate(ClientDTO c)
-        {
+        { //called first id 0
              var response 
                 = new WebRequestHandler().Post("/Client", c).Result;
             
@@ -81,11 +81,14 @@ namespace DozenDispleasedDudes.Services
             if(myUpdatedClient != null)
             {
                 var existingClient = _roster.FirstOrDefault(c => c.Id == myUpdatedClient.Id);
+
+                
                 if(existingClient == null)
                 {
                     _roster.Add(myUpdatedClient);
                 }else
                 {
+                    var isActiveCheck = (existingClient.IsActive == c.IsActive);
                     var index = _roster.IndexOf(existingClient);
                     _roster.RemoveAt(index);
                     _roster.Insert(index, myUpdatedClient);

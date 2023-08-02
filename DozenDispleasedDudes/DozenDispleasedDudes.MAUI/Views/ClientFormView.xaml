@@ -13,10 +13,11 @@
             </StackLayout>
             <StackLayout>
                 <Label Text="Is Active" />
-                <Switch x:Name="ClientIsActiveSwitch" IsToggled="{Binding Model.IsActive}" />
+                <Switch x:Name="ClientIsActiveSwitch" IsToggled="{Binding IA}" />
+                
                 <StackLayout>
                     <Label Text="Close Date" />
-                    <DatePicker x:Name="ClientCloseDatePicker" Date="{Binding Model.ClosedDate}">
+                    <DatePicker x:Name="ClientCloseDatePicker" Date="{Binding CD}">
                         <DatePicker.Triggers>
                             <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference ClientIsActiveSwitch}, Path=IsToggled}" Value="True">
                                 <Setter Property="IsVisible" Value="False" />
@@ -28,7 +29,7 @@
         </StackLayout>
         <StackLayout>
             <Label Text="Notes" />
-            <Entry  Placeholder="Notes" Text="{Binding Notes }" />
+            <Entry  Placeholder="Notes" Text="{Binding Model.Notes }" />
         </StackLayout>
         <Button Text="OK" Clicked="OkClicked"/>
         <Button Text="Cancel" Clicked="CancelClicked"/>

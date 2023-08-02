@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+
+
 namespace DozenDispleasedDudes.MAUI.ViewModels
 {
     
@@ -155,35 +157,152 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
         public ClientViewModel() 
         {
             Model = new ClientDTO();
-           
+            if (Model.IsActive == false && Model.ClosedDate == null)
+            {
+                Model.ClosedDate = DefaultDate;
+            }
+
             SetupCommands();
         }
+        
         public ClientViewModel(int clientId)
         {
             if(clientId == 0)
             {
                 Model = new ClientDTO();
+                IA = Model.IsActive;
+                NotifyPropertyChanged(nameof(IA));
+                CD = Model.ClosedDate;
+                NotifyPropertyChanged(nameof(CD));
             }
             else
             {
                 Model = ClientService.Current.Get(clientId);
+                IA = Model.IsActive;
+                NotifyPropertyChanged(nameof(IA));
+                CD = Model.ClosedDate;
+                NotifyPropertyChanged(nameof(CD));
             }
             SetupCommands();
+        }
+        /*
+       reason for the ghetto rig toxic back and forth just for a xamlto reset closed date visualy 
+          data functionally behaves correctly on back end. the correct auto update in backend occurs if no new closed date is selected
+          It has been working since 7 currently @ 1:26 probaly for longer just locked in certainy on that fact after dinner at 7
+         problem occurs vissualy when/if obj has been set to closed whether it before the default date or manually.
+         (i know it ocurs this way because of the midnight threshold causing same issue)Once the object set to active
+         after bieng closed date picker refuses to show default date even when closed date set to null
+         forcefully if client is active just before AddOrUpdate
+         Once set back to closed it holds this phantom date which im trying to discover how its even remebering let alone 
+         ck 2 byzantium level usurpering things that have no issues else where.
+        The incredibly frustrating this is this only occurs in that specific order if you update client.ClosedDate if its closed already no Issues.
+         I know its a very minor detail but I really want to care about those minor ones because of the things we talked about in class this morning
+         IMO yes in it a minor detail for a coding project. Where it will either provide confusion if left in orginal state.
+         in the case that someone accidently activates a client and would be thankful the it stored the old one as place holder.
+         only to be upset when it behaves as intended when reclosing 
+         However it could also be anoying having to scroll all the way to the default date on closure if any new work was done justifying 
+         the default date(day of action) as new closed date. 
+         My inital intent was to just slap a convience button that set a property on whether u want today or a date in the past. 
+         However while brain storming the property and doing some minor testing I noticed I can set future dates.
+         Which gave me an idea for a potential extension of the features. So I decided to build the property as the base.
+         then go back and flesh it out 
+         potential additions  bieng
+         save old closed date make sure if a project/time entry has been submited since reopen that is the oldest u can set closed date
+         which can be fixed with a check on last time entry and setting that as the min date. 
+          -requires an addition of a property to project that saves Date of creation which can be the sub check if timeService List for projects related to client is empty
+         then have a button to set date picker for whichever of the two gets the short straw on not bieng the default
+         */
+
+        private bool ia;
+        public bool IA
+        {
+            get => ia;
+            set
+            {
+                if (ia != value)
+                {
+                    if(value == false)
+                    {
+                        ia = value;
+                        CD = DefaultDate;
+                        NotifyPropertyChanged(nameof(CD));
+                        NotifyPropertyChanged(nameof(IA));
+                        Model.IsActive = IA;
+                        NotifyPropertyChanged(nameof(Model.IsActive));
+                    }
+                    else
+                    {
+                        ia = value;
+                        NotifyPropertyChanged(nameof(IA));
+                        Model.IsActive = IA;
+                        NotifyPropertyChanged(nameof(Model.IsActive));
+                        CD = null;
+                        NotifyPropertyChanged(nameof(CD));
+                    }
+                }
+            }
+        }
+        private DateTime? cd;
+        
+        public DateTime? CD
+        {
+            get => cd;
+            
+            set 
+            {   
+                if (IA == true)
+                {
+                    cd = null;
+                    Model.ClosedDate = cd;
+                    NotifyPropertyChanged(nameof(Model.ClosedDate));
+                    NotifyPropertyChanged(nameof(CD));
+                }
+                else if (IA == false)
+                {
+                    if (cd != value)
+                    {
+                        if (  Model.Id == 0 )
+                        {
+                            Model.ClosedDate = DefaultDate;
+                            cd = Model.ClosedDate;
+                            NotifyPropertyChanged(nameof(Model.ClosedDate));
+                            NotifyPropertyChanged(nameof(CD));
+                        }
+                        else 
+                        { 
+                            cd = value;
+                            Model.ClosedDate = cd;
+                            NotifyPropertyChanged(nameof(Model.ClosedDate));
+                            NotifyPropertyChanged(nameof(CD));
+                        }
+                    }
+                }
+                else 
+                { cd = null; }
+            }
         }
         public ClientViewModel(ClientDTO client)
         {
             Model = client;
+            
+            if (Model.IsActive == false)
+            {
+                if(Model.ClosedDate == null)
+                {
+                    Model.ClosedDate = DefaultDate;
+                    NotifyPropertyChanged(nameof(Model.ClosedDate));
+                }
+            }
+            
             SetupCommands();
         }
 
         public void AddOrUpdate()
         {
-            var check = Model.IsActive;
-            if (Model.IsActive == true)
-            {
-                Model.ClosedDate = null;
-            }
             ClientService.Current.AddOrUpdate(Model);
         }
+        
+       
+
     }
 }
