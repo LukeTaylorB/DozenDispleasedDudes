@@ -49,10 +49,9 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
           
         }
 
-        public DateTime DefaultDate = DateTime.Today; //remeber field not property 
-        public Project Model {get; set; } //somehow need to set opendate and closedate default date to Default Date so it doesnt start at 1900 like bruh
-        //Model.Open
-        //Date ?? DateTime.Today Possible Without Issues
+        public DateTime DefaultDate = DateTime.Today; //remember field not property 
+        public Project Model {get; set; } 
+        
         public Time TimeModel { get; set; }
         
         public ICommand AddCommand { get; private set; }
@@ -82,7 +81,33 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
                 return ( "\t" + (Model.ShortName) + "'s TimeEntries");
             }
         }
+        // Function and property to set is selected for all time Entries when project isSelected
+        public void TimeProjectIsSelectedSet(bool value)
+        {
+            foreach (Time t in timeEntries )
+            {
+                t.IsSelected = value;
+                NotifyPropertyChanged(nameof(t.IsSelected));
+            }
+            RefreshTimesList();
+        }
+        private bool ps;
 
+        public bool PS
+        {
+            get => ps;
+            set
+            {
+                if(ps != value)
+                {
+                    ps = value;
+                    Model.IsSelected = value;
+                    NotifyPropertyChanged(nameof(Model.IsSelected));
+                    NotifyPropertyChanged(nameof(ps));
+                    TimeProjectIsSelectedSet(value);
+                }
+            }
+        }
 
         private void ExecuteAdd()
         {
@@ -98,10 +123,7 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             else
             {
                 Shell.Current.GoToAsync($"//Projects?clientId={Model.ClientId}");
-                
                 //Shell.Current.GoToAsync("//Projects");
-                
-                
             }
             
         }

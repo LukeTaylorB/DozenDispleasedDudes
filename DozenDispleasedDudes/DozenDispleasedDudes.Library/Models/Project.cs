@@ -9,7 +9,7 @@ namespace DozenDispleasedDudes.Models
 {
     public class Project
     {
-        private static int lastId = 0;
+        private static int lastId = 0; // no longer used
         public int Id { get; set; }
         public DateTime OpenDate { get; set; }
         public DateTime? ClosedDate { get; set; }
@@ -17,6 +17,7 @@ namespace DozenDispleasedDudes.Models
         public string ShortName { get; set; }
         public string LongName { get; set; }
         public int ClientId { get; set; }
+        public bool IsSelected { get; set; }
         public Client? Client { get; set; }
 
         //private static List<Project> projects = new List<Project>();

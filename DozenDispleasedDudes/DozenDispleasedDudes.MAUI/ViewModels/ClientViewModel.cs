@@ -39,13 +39,14 @@ namespace DozenDispleasedDudes.MAUI.ViewModels
             }
         }
        
-
+        
 
         //Change this to a timeViewModel
         public ObservableCollection<Time> TimeList
         {
             get
             {
+                
                 return new ObservableCollection<Time>(TimeService.Current.Times.Where(t => t.IsSelected == true && (t.BillId == 0 || t.BillId == null)));
             }
         }

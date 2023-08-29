@@ -124,6 +124,7 @@ namespace DozenDispleasedDudes.API.Database
         //change to procedures
         public Client InsertClient(Client newClient)
         {
+
             int result;
             using (var conn = new SqlConnection(connectionString))
             {

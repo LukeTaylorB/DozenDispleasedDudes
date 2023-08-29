@@ -108,6 +108,8 @@ namespace DozenDispleasedDudes.Services
         {
             _roster.ForEach(Console.WriteLine);
         }
+
+        //No longer used
         private int LastId
         {
             get
